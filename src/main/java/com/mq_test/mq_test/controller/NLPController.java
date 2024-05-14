@@ -30,9 +30,6 @@ import java.nio.charset.StandardCharsets;
 public class NLPController {
 
     @Autowired
-    private TranslateWs translateWs;
-
-    @Autowired
     private RabbitTemplate rabbitTemplate;
 
     @PostMapping("/translate")

@@ -7,20 +7,23 @@ import com.aliyun.oss.OSSException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
 
-@Data
-@AllArgsConstructor
 @Slf4j
 @Component
 public class AliOssUtil {
 
+    @Value("${aliyun.oss.endpoint}")
     private String endpoint;
-    private String accessKeyId;
-    private String accessKeySecret;
+    @Value("${aliyun.oss.bucket-name}")
     private String bucketName;
+    @Value("${aliyun.access-key-id}")
+    private String accessKeyId;
+    @Value("${aliyun.access-key-secret}")
+    private String accessKeySecret;
 
     /**
      * 文件上传
