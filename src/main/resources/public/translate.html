@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>在线翻译</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+    $(document).ready(function(){
+      // WebSocket连接
+      var ws = new WebSocket("ws://localhost:8080/translate/114514");
+
+      // 收到消息时的处理函数
+      ws.onmessage = function(event){
+        var data = JSON.parse(event.data);
+        console.log(data.data);
+        // if(data.type === "translation"){
+        //   $("#translationResult").text(data.translation);
+        // }
+      };
+
+      // 点击翻译按钮时的处理函数
+      $("#translateBtn").click(function(){
+        var sourceLang = $("#sourceLang").val();
+        var targetLang = $("#targetLang").val();
+        var textToTranslate = $("#textToTranslate").val();
+
+        axios({
+          method: "post",
+          url: "http://localhost:8080/NLP/translate",
+          header: {
+            "Content-Type": "application/json"
+          },
+          data: {
+            cid: "114514",
+            sourceLanguage: sourceLang,
+            targetLanguage: targetLang,
+            sourceText: textToTranslate
+          },
+        })
+      });
+    });
+  </script>
+</head>
+<body>
+<h1>在线翻译</h1>
+<label for="sourceLang">源语言：</label>
+<select id="sourceLang">
+  <option value="zh">中文</option>
+  <option value="ja">日语</option>
+  <option value="en">英语</option>
+  <option value="fr">法语</option>
+  <option value="es">西班牙语</option>
+</select><br><br>
+
+<label for="targetLang">目标语言：</label>
+<select id="targetLang">
+  <option value="zh">中文</option>
+  <option value="ja">日语</option>
+  <option value="en">英语</option>
+  <option value="fr">法语</option>
+  <option value="es">西班牙语</option>
+  <!-- 其他语言选项 -->
+</select><br><br>
+
+<label for="textToTranslate">要翻译的文本：</label><br>
+<textarea id="textToTranslate" rows="4" cols="50"></textarea><br><br>
+
+<button id="translateBtn" onclick="">翻译</button><br><br>
+
+<div id="translationResult"></div>
+</body>
+</html>
+
+
+

@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: Mq_Test
+  rabbitmq:
+    host: localhost
+    port: 5672
+    virtual-host: /MqTest
+    username: mqtest
+    password: 114514
+
+url:
+  translate: https://mt.cn-hangzhou.aliyuncs.com/api/translate/web/ecommerce
+
+aliyun:
+  # 使用环境变量配置
+  access-key-id: ${OSS_ACCESS_KEY_ID}
+  access-key-secret: ${OSS_ACCESS_KEY_SECRET}
