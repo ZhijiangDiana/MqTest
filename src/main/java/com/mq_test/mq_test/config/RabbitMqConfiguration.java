@@ -48,4 +48,21 @@ public class RabbitMqConfiguration {
         return BindingBuilder.bind(mealRecoQueue()).to(mealRecoExchange()).with("114514");
     }
 
+
+    @Bean // 垃圾识别业务交换机
+    public DirectExchange rubbishRecoExchange() {
+        return new DirectExchange("rubbishReco.exchange", true, false, new HashMap<>());
+    }
+
+    @Bean // 垃圾识别业务队列
+    public Queue rubbishRecoQueue() {
+        Map<String, Object> map = new HashMap<>();
+        return new Queue("rubbishReco.queue", true, false, false, map);
+    }
+
+    @Bean // 绑定
+    public Binding bindingRubbishEx() {
+        return BindingBuilder.bind(rubbishRecoQueue()).to(rubbishRecoExchange()).with("114514");
+    }
+
 }

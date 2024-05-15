@@ -44,4 +44,17 @@ public class CVController {
 
         return Result.success();
     }
+
+    @PostMapping("/rubbish")
+    @Operation(tags = "垃圾分类接口")
+    public Result<String> rubbishRecognition(@RequestBody RecognitionDTO recognitionDTO) {
+        recognitionDTO.setAction("ClassifyingRubbish");
+        String name = "rubbishReco.exchange";
+        Message message = MessageBuilder
+                .withBody(JSON.toJSONString(recognitionDTO).getBytes(StandardCharsets.UTF_8))
+                .build();
+        rabbitTemplate.convertAndSend(name, "114514", message);
+
+        return Result.success();
+    }
 }

@@ -1,13 +1,17 @@
 package com.mq_test.mq_test.utils;
 
+import com.aliyun.imagerecog20190930.models.ClassifyingRubbishResponse;
+import com.aliyun.imagerecog20190930.models.ClassifyingRubbishResponseBody;
 import com.aliyun.imagerecog20190930.models.RecognizeFoodResponse;
 import com.aliyun.imagerecog20190930.models.RecognizeFoodResponseBody;
 import com.aliyun.tea.TeaException;
 import com.aliyun.tea.TeaModel;
 import com.mq_test.mq_test.pojo.dto.RecognitionDTO;
 import com.mq_test.mq_test.pojo.vo.MealRecoVO;
+import com.mq_test.mq_test.pojo.vo.RubbishRecoVO;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -60,5 +64,26 @@ public class RecognitionUtil {
                 .calorie(mostProb.getCalorie())
                 .score(String.valueOf(mostProb.getScore()))
                 .build();
+    }
+
+    public RubbishRecoVO rubbishReco(RecognitionDTO recognitionDTO) throws Exception {
+        // 创建AccessKey ID和AccessKey Secret，请参考https://help.aliyun.com/document_detail/175144.html
+        // 如果您使用的是RAM用户的AccessKey，还需要为子账号授予权限AliyunVIAPIFullAccess，请参考https://help.aliyun.com/document_detail/145025.html
+        com.aliyun.imagerecog20190930.models.ClassifyingRubbishRequest classifyingRubbishRequest = new com.aliyun.imagerecog20190930.models.ClassifyingRubbishRequest()
+                .setImageURL(recognitionDTO.getImageURL());
+        com.aliyun.teautil.models.RuntimeOptions runtime = new com.aliyun.teautil.models.RuntimeOptions();
+        ClassifyingRubbishResponse classifyingRubbishResponse = client.classifyingRubbishWithOptions(classifyingRubbishRequest, runtime);
+        // 获取单个字段
+        ClassifyingRubbishResponseBody.ClassifyingRubbishResponseBodyDataElements mostProb = classifyingRubbishResponse.getBody().data.elements.get(0);
+
+        RubbishRecoVO rubbishRecoVO = new RubbishRecoVO();
+        BeanUtils.copyProperties(mostProb, rubbishRecoVO);
+        return rubbishRecoVO;
+//        return RubbishRecoVO.builder()
+//                .rubbish(mostProb.rubbish)
+//                .rubbishScore(mostProb.rubbishScore)
+//                .category(mostProb.category)
+//                .categoryScore(mostProb.categoryScore)
+//                .build();
     }
 }
