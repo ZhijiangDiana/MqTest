@@ -13,9 +13,9 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
-@ServerEndpoint("/return/{cid}")
+@ServerEndpoint("/rubbishReco/{cid}")
 @Slf4j
-public class ReturnWs {
+public class RubbishRecoWs {
 
     //存放会话对象
     private static final Map<String, Session> sessionMap = new ConcurrentHashMap<>();

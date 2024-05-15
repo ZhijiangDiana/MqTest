@@ -7,7 +7,9 @@ import com.mq_test.mq_test.pojo.dto.RecognitionDTO;
 import com.mq_test.mq_test.pojo.vo.MealRecoVO;
 import com.mq_test.mq_test.pojo.vo.RubbishRecoVO;
 import com.mq_test.mq_test.utils.RecognitionUtil;
-import com.mq_test.mq_test.ws.ReturnWs;
+import com.mq_test.mq_test.ws.MealRecoWs;
+import com.mq_test.mq_test.ws.RubbishRecoWs;
+import com.mq_test.mq_test.ws.TranslateWs;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +27,10 @@ import java.io.IOException;
 public class RecognitionListener {
 
     @Autowired
-    private ReturnWs returnWs;
+    private MealRecoWs mealRecoWs;
+
+    @Autowired
+    private RubbishRecoWs rubbishRecoWs;
 
     @Autowired
     private RecognitionUtil recognitionUtil;
@@ -41,7 +46,7 @@ public class RecognitionListener {
             MealRecoVO mealRecoVO = recognitionUtil.mealReco(recognitionDTO);
 //            log.info(mealRecoVO.toString());
 
-            returnWs.returnStringResult(recognitionDTO.getCid(), JSON.toJSONString(Result.success(mealRecoVO)));
+            mealRecoWs.returnStringResult(recognitionDTO.getCid(), JSON.toJSONString(Result.success(mealRecoVO)));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -56,7 +61,7 @@ public class RecognitionListener {
             RubbishRecoVO rubbishRecoVO = recognitionUtil.rubbishReco(recognitionDTO);
 //            log.info(rubbishRecoVO.toString());
 
-            returnWs.returnStringResult(recognitionDTO.getCid(), JSON.toJSONString(Result.success(rubbishRecoVO)));
+            rubbishRecoWs.returnStringResult(recognitionDTO.getCid(), JSON.toJSONString(Result.success(rubbishRecoVO)));
         } catch (Exception e) {
             e.printStackTrace();
         }
