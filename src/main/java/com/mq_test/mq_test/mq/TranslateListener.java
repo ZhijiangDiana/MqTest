@@ -6,7 +6,7 @@ import com.alibaba.fastjson2.filter.PascalNameFilter;
 import com.google.common.util.concurrent.RateLimiter;
 import com.mq_test.mq_test.pojo.dto.TranslateDTO;
 import com.mq_test.mq_test.utils.Sender;
-import com.mq_test.mq_test.ws.TranslateWs;
+import com.mq_test.mq_test.ws.ReturnWs;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class TranslateListener {
     private Sender sender;
 
     @Autowired
-    private TranslateWs translateWs;
+    private ReturnWs returnWs;
     private final RateLimiter rateLimiter = RateLimiter.create(1);
 
     @RabbitListener(queues = "translate.queue", concurrency = "1")
@@ -39,7 +39,7 @@ public class TranslateListener {
             String s = sender.sendPost(url, bodyJson);
             String res = (String) ((JSONObject) JSONObject.parse(s).get("Data")).get("Translated");
             log.info("{} -> {}", translateDTO.getSourceText(), res);
-            translateWs.returnStringResult(translateDTO.getCid(), res);
+            returnWs.returnStringResult(translateDTO.getCid(), res);
         } catch (Exception e) {
             e.printStackTrace();
         }

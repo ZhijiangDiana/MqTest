@@ -30,4 +30,22 @@ public class RabbitMqConfiguration {
         return BindingBuilder.bind(oriQueue()).to(oriExchange()).with("114514");
     }
 
+
+
+    @Bean // 菜品识别业务交换机
+    public DirectExchange mealRecoExchange() {
+        return new DirectExchange("mealReco.exchange", true, false, new HashMap<>());
+    }
+
+    @Bean // 菜品识别业务队列
+    public Queue mealRecoQueue() {
+        Map<String, Object> map = new HashMap<>();
+        return new Queue("mealReco.queue", true, false, false, map);
+    }
+
+    @Bean // 绑定
+    public Binding bindingMealEx() {
+        return BindingBuilder.bind(mealRecoQueue()).to(mealRecoExchange()).with("114514");
+    }
+
 }

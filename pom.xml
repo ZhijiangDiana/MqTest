@@ -97,6 +97,14 @@
             <version>0.2.5</version>
         </dependency>
 
+        <!-- 阿里云图像识别 -->
+        <!-- https://mvnrepository.com/artifact/com.aliyun/imagerecog20190930 -->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>imagerecog20190930</artifactId>
+            <version>1.0.11</version>
+        </dependency>
+
         <!-- Google Guava -->
         <dependency>
             <groupId>com.google.guava</groupId>

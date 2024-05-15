@@ -18,3 +18,6 @@ aliyun:
   oss:
     endpoint: oss-cn-shanghai.aliyuncs.com
     bucket-name: lr-mq-test
+  recognition:
+    endpoint: imagerecog.cn-shanghai.aliyuncs.com
+    region-id: cn-shanghai-a
