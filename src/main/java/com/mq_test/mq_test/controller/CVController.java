@@ -33,7 +33,7 @@ public class CVController {
     private RabbitTemplate rabbitTemplate;
 
     @PostMapping("/meal")
-    @Operation(tags = "菜品识别接口")
+    @Operation(summary = "菜品识别接口")
     public Result<String> mealRecognition(@RequestBody RecognitionDTO recognitionDTO) {
         recognitionDTO.setAction("RecognizeFood");
         String name = "mealReco.exchange";
@@ -46,7 +46,7 @@ public class CVController {
     }
 
     @PostMapping("/rubbish")
-    @Operation(tags = "垃圾分类接口")
+    @Operation(summary = "垃圾分类接口")
     public Result<String> rubbishRecognition(@RequestBody RecognitionDTO recognitionDTO) {
         recognitionDTO.setAction("ClassifyingRubbish");
         String name = "rubbishReco.exchange";
@@ -57,4 +57,17 @@ public class CVController {
 
         return Result.success();
     }
+
+    @PostMapping("/judge")
+    @Operation(summary = "图片审核")
+    public Result<String> pictureJudge(@RequestBody RecognitionDTO recognitionDTO) {
+        String name = "pictureJudge.exchange";
+        Message message = MessageBuilder
+                .withBody(JSON.toJSONString(recognitionDTO).getBytes(StandardCharsets.UTF_8))
+                .build();
+        rabbitTemplate.convertAndSend(name, "114514", message);
+
+        return Result.success();
+    }
+
 }

@@ -65,4 +65,20 @@ public class RabbitMqConfiguration {
         return BindingBuilder.bind(rubbishRecoQueue()).to(rubbishRecoExchange()).with("114514");
     }
 
+
+    @Bean // 涩图申鹤业务交换机
+    public DirectExchange pictureJudgeExchange() {
+        return new DirectExchange("pictureJudge.exchange", true, false, new HashMap<>());
+    }
+
+    @Bean // 涩图申鹤业务队列
+    public Queue pictureJudgeQueue() {
+        Map<String, Object> map = new HashMap<>();
+        return new Queue("pictureJudge.queue", true, false, false, map);
+    }
+
+    @Bean // 绑定
+    public Binding bindingJudgeEx() {
+        return BindingBuilder.bind(pictureJudgeQueue()).to(pictureJudgeExchange()).with("114514");
+    }
 }
